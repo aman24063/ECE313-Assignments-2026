@@ -50,4 +50,3 @@ Example:
 bash code.sh sample.txt
 ```
 
-**Sample Output:**
