@@ -1,6 +1,6 @@
 # ECE313-Assignments-2026
 
-This repository contains my assignments for the VDF (UNIX/TCL) course, ECE313.
+This repository contains my assignments for the VDF (VLSI Design Flow) course, ECE313. The course covers UNIX and TCL scripting as part of the VLSI design workflow.
 
 ## Assignment 1 — Text File Analyzer
 
@@ -20,7 +20,17 @@ Both scripts analyze a given text file and print:
 - `code.tcl` requires `tclsh` installed
 - `code.sh` requires Bash (standard on any UNIX/Linux system)
 
-**How to Run:**
+## Getting Started
+
+Clone the repo:
+```bash
+git clone https://github.com/aman24063/ECE313-Assignments-2026.git
+cd ECE313-Assignments-2026
+```
+
+Then navigate into the relevant assignment folder before running the scripts.
+
+## How to Run
 
 TCL script:
 ```bash
@@ -40,4 +50,4 @@ Example:
 bash code.sh sample.txt
 ```
 
-
+**Sample Output:**
