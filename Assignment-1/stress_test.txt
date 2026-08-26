@@ -1,0 +1,3 @@
+Hello,   world! This  is   a test.
+Second line here with tabs		and   spaces.
+A final line without newline

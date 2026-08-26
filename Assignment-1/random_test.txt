@@ -1,0 +1,4 @@
+The quick brown fox jumps over the lazy dog near the riverbank.
+Programming in UNIX teaches discipline, patience, and precision.
+TCL and shell scripting are both powerful tools for automation.
+A well-commented script is easier to debug and maintain over time.
