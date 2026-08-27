@@ -1,6 +1,6 @@
 # ECE313-Assignments-2026
 
-This repository contains my assignments for the VDF (VLSI Design Flow) course, ECE313. The course covers UNIX and TCL scripting as part of the VLSI design workflow.
+This repository contains my assignments for the VDF (VLSI Design Flow) course, ECE313. 
 
 ## Assignment 1 — Text File Analyzer
 
