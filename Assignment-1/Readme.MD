@@ -21,7 +21,7 @@ Both scripts analyze a given text file and print:
 Clone the repo:
 ```bash
 git clone https://github.com/aman24063/ECE313-Assignments-2026.git
-cd ECE313-Assignments-2026
+cd ECE313-Assignments-2026/Assignment-1
 ```
 
 Then navigate into the relevant assignment folder before running the scripts.
