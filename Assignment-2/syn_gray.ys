@@ -1,0 +1,9 @@
+read_verilog fsm_gray.v
+hierarchy -check -top fsm_gray
+proc; opt
+fsm; opt
+techmap; opt
+abc -g AND,OR,XOR,NAND,NOR
+opt_clean
+stat
+write_verilog -noattr fsm_gray_netlist.v

@@ -1,0 +1,236 @@
+/*
+ * simple.lib - a minimal Liberty technology library
+ *
+ * Provides a small standard-cell set (inverter, buffer, 2-input NAND/NOR/
+ * AND/OR/XOR and a positive-edge D flip-flop) with area and timing values,
+ * sufficient for Yosys dfflibmap + ABC technology mapping and for obtaining
+ * a chip-area figure from the stat command.
+ *
+ * Areas are in arbitrary but self-consistent units, scaled the way a real
+ * standard-cell library scales: an inverter is the smallest cell, NAND and
+ * NOR are cheaper than AND and OR (which are NAND/NOR followed by an
+ * inverter), XOR is the most expensive combinational cell, and the flip-flop
+ * is several times the area of any gate.
+ */
+
+library(simple) {
+
+  /* ---------------- library-wide units and defaults ---------------- */
+  technology (cmos);
+  delay_model            : table_lookup;
+  time_unit              : "1ns";
+  voltage_unit           : "1V";
+  current_unit           : "1mA";
+  capacitive_load_unit   (1, pf);
+  pulling_resistance_unit: "1kohm";
+  leakage_power_unit     : "1nW";
+
+  default_inout_pin_cap     : 0.001;
+  default_input_pin_cap     : 0.001;
+  default_output_pin_cap    : 0.0;
+  default_fanout_load       : 1.0;
+  default_max_transition    : 1.0;
+
+  nom_process     : 1.0;
+  nom_temperature : 25.0;
+  nom_voltage     : 1.8;
+
+  lu_table_template(delay_template) {
+    variable_1 : input_net_transition;
+    variable_2 : total_output_net_capacitance;
+    index_1 ("0.1, 0.5");
+    index_2 ("0.1, 0.5");
+  }
+
+  /* ---------------- combinational cells ---------------- */
+
+  cell(INVX1) {
+    area : 1;
+    pin(A) { direction : input;  capacitance : 0.001; }
+    pin(Y) {
+      direction : output;
+      function  : "!A";
+      timing() {
+        related_pin : "A";
+        cell_rise(delay_template)  { values("0.05, 0.09", "0.07, 0.11"); }
+        cell_fall(delay_template)  { values("0.05, 0.09", "0.07, 0.11"); }
+        rise_transition(delay_template) { values("0.03, 0.06", "0.04, 0.07"); }
+        fall_transition(delay_template) { values("0.03, 0.06", "0.04, 0.07"); }
+      }
+    }
+  }
+
+  cell(BUFX1) {
+    area : 2;
+    pin(A) { direction : input;  capacitance : 0.001; }
+    pin(Y) {
+      direction : output;
+      function  : "A";
+      timing() {
+        related_pin : "A";
+        cell_rise(delay_template)  { values("0.08, 0.13", "0.10, 0.15"); }
+        cell_fall(delay_template)  { values("0.08, 0.13", "0.10, 0.15"); }
+        rise_transition(delay_template) { values("0.04, 0.07", "0.05, 0.08"); }
+        fall_transition(delay_template) { values("0.04, 0.07", "0.05, 0.08"); }
+      }
+    }
+  }
+
+  cell(NAND2X1) {
+    area : 2;
+    pin(A) { direction : input;  capacitance : 0.001; }
+    pin(B) { direction : input;  capacitance : 0.001; }
+    pin(Y) {
+      direction : output;
+      function  : "!(A * B)";
+      timing() {
+        related_pin : "A";
+        cell_rise(delay_template)  { values("0.07, 0.12", "0.09, 0.14"); }
+        cell_fall(delay_template)  { values("0.07, 0.12", "0.09, 0.14"); }
+        rise_transition(delay_template) { values("0.04, 0.07", "0.05, 0.08"); }
+        fall_transition(delay_template) { values("0.04, 0.07", "0.05, 0.08"); }
+      }
+      timing() {
+        related_pin : "B";
+        cell_rise(delay_template)  { values("0.07, 0.12", "0.09, 0.14"); }
+        cell_fall(delay_template)  { values("0.07, 0.12", "0.09, 0.14"); }
+        rise_transition(delay_template) { values("0.04, 0.07", "0.05, 0.08"); }
+        fall_transition(delay_template) { values("0.04, 0.07", "0.05, 0.08"); }
+      }
+    }
+  }
+
+  cell(NOR2X1) {
+    area : 2;
+    pin(A) { direction : input;  capacitance : 0.001; }
+    pin(B) { direction : input;  capacitance : 0.001; }
+    pin(Y) {
+      direction : output;
+      function  : "!(A + B)";
+      timing() {
+        related_pin : "A";
+        cell_rise(delay_template)  { values("0.07, 0.12", "0.09, 0.14"); }
+        cell_fall(delay_template)  { values("0.07, 0.12", "0.09, 0.14"); }
+        rise_transition(delay_template) { values("0.04, 0.07", "0.05, 0.08"); }
+        fall_transition(delay_template) { values("0.04, 0.07", "0.05, 0.08"); }
+      }
+      timing() {
+        related_pin : "B";
+        cell_rise(delay_template)  { values("0.07, 0.12", "0.09, 0.14"); }
+        cell_fall(delay_template)  { values("0.07, 0.12", "0.09, 0.14"); }
+        rise_transition(delay_template) { values("0.04, 0.07", "0.05, 0.08"); }
+        fall_transition(delay_template) { values("0.04, 0.07", "0.05, 0.08"); }
+      }
+    }
+  }
+
+  cell(AND2X1) {
+    area : 3;
+    pin(A) { direction : input;  capacitance : 0.001; }
+    pin(B) { direction : input;  capacitance : 0.001; }
+    pin(Y) {
+      direction : output;
+      function  : "(A * B)";
+      timing() {
+        related_pin : "A";
+        cell_rise(delay_template)  { values("0.10, 0.16", "0.12, 0.18"); }
+        cell_fall(delay_template)  { values("0.10, 0.16", "0.12, 0.18"); }
+        rise_transition(delay_template) { values("0.05, 0.08", "0.06, 0.09"); }
+        fall_transition(delay_template) { values("0.05, 0.08", "0.06, 0.09"); }
+      }
+      timing() {
+        related_pin : "B";
+        cell_rise(delay_template)  { values("0.10, 0.16", "0.12, 0.18"); }
+        cell_fall(delay_template)  { values("0.10, 0.16", "0.12, 0.18"); }
+        rise_transition(delay_template) { values("0.05, 0.08", "0.06, 0.09"); }
+        fall_transition(delay_template) { values("0.05, 0.08", "0.06, 0.09"); }
+      }
+    }
+  }
+
+  cell(OR2X1) {
+    area : 3;
+    pin(A) { direction : input;  capacitance : 0.001; }
+    pin(B) { direction : input;  capacitance : 0.001; }
+    pin(Y) {
+      direction : output;
+      function  : "(A + B)";
+      timing() {
+        related_pin : "A";
+        cell_rise(delay_template)  { values("0.10, 0.16", "0.12, 0.18"); }
+        cell_fall(delay_template)  { values("0.10, 0.16", "0.12, 0.18"); }
+        rise_transition(delay_template) { values("0.05, 0.08", "0.06, 0.09"); }
+        fall_transition(delay_template) { values("0.05, 0.08", "0.06, 0.09"); }
+      }
+      timing() {
+        related_pin : "B";
+        cell_rise(delay_template)  { values("0.10, 0.16", "0.12, 0.18"); }
+        cell_fall(delay_template)  { values("0.10, 0.16", "0.12, 0.18"); }
+        rise_transition(delay_template) { values("0.05, 0.08", "0.06, 0.09"); }
+        fall_transition(delay_template) { values("0.05, 0.08", "0.06, 0.09"); }
+      }
+    }
+  }
+
+  cell(XOR2X1) {
+    area : 5;
+    pin(A) { direction : input;  capacitance : 0.001; }
+    pin(B) { direction : input;  capacitance : 0.001; }
+    pin(Y) {
+      direction : output;
+      function  : "(A ^ B)";
+      timing() {
+        related_pin : "A";
+        cell_rise(delay_template)  { values("0.14, 0.20", "0.16, 0.22"); }
+        cell_fall(delay_template)  { values("0.14, 0.20", "0.16, 0.22"); }
+        rise_transition(delay_template) { values("0.06, 0.09", "0.07, 0.10"); }
+        fall_transition(delay_template) { values("0.06, 0.09", "0.07, 0.10"); }
+      }
+      timing() {
+        related_pin : "B";
+        cell_rise(delay_template)  { values("0.14, 0.20", "0.16, 0.22"); }
+        cell_fall(delay_template)  { values("0.14, 0.20", "0.16, 0.22"); }
+        rise_transition(delay_template) { values("0.06, 0.09", "0.07, 0.10"); }
+        fall_transition(delay_template) { values("0.06, 0.09", "0.07, 0.10"); }
+      }
+    }
+  }
+
+  /* ---------------- sequential cell ---------------- */
+
+  cell(DFFPOSX1) {
+    area : 12;
+    ff(IQ, IQN) {
+      next_state  : "D";
+      clocked_on  : "CK";
+    }
+    pin(D)  { direction : input; capacitance : 0.001;
+      timing() {
+        related_pin    : "CK";
+        timing_type    : setup_rising;
+        rise_constraint(delay_template) { values("0.05, 0.05", "0.05, 0.05"); }
+        fall_constraint(delay_template) { values("0.05, 0.05", "0.05, 0.05"); }
+      }
+      timing() {
+        related_pin    : "CK";
+        timing_type    : hold_rising;
+        rise_constraint(delay_template) { values("0.01, 0.01", "0.01, 0.01"); }
+        fall_constraint(delay_template) { values("0.01, 0.01", "0.01, 0.01"); }
+      }
+    }
+    pin(CK) { direction : input; capacitance : 0.002; clock : true; }
+    pin(Q)  {
+      direction : output;
+      function  : "IQ";
+      timing() {
+        related_pin : "CK";
+        timing_type : rising_edge;
+        cell_rise(delay_template)  { values("0.20, 0.28", "0.22, 0.30"); }
+        cell_fall(delay_template)  { values("0.20, 0.28", "0.22, 0.30"); }
+        rise_transition(delay_template) { values("0.05, 0.08", "0.06, 0.09"); }
+        fall_transition(delay_template) { values("0.05, 0.08", "0.06, 0.09"); }
+      }
+    }
+  }
+
+}

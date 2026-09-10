@@ -1,0 +1,12 @@
+# One-hot encoded FSM, mapped onto the SAME technology library
+read_verilog fsm_onehot.v
+hierarchy -check -top fsm_onehot
+proc; opt
+fsm; opt
+memory; opt
+techmap; opt
+dfflibmap -liberty simple.lib
+abc -liberty simple.lib
+opt_clean
+stat -liberty simple.lib
+write_verilog -noattr fsm_onehot_netlist_lib.v

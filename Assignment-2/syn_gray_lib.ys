@@ -1,0 +1,12 @@
+# Gray-encoded FSM, mapped onto the simple.lib technology library
+read_verilog fsm_gray.v
+hierarchy -check -top fsm_gray
+proc; opt
+fsm; opt
+memory; opt
+techmap; opt
+dfflibmap -liberty simple.lib
+abc -liberty simple.lib
+opt_clean
+stat -liberty simple.lib
+write_verilog -noattr fsm_gray_netlist_lib.v

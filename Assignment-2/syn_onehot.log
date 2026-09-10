@@ -1,0 +1,411 @@
+
+ /----------------------------------------------------------------------------\
+ |                                                                            |
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |                                                                            |
+ |  Copyright (C) 2012 - 2019  Clifford Wolf <clifford@clifford.at>           |
+ |                                                                            |
+ |  Permission to use, copy, modify, and/or distribute this software for any  |
+ |  purpose with or without fee is hereby granted, provided that the above    |
+ |  copyright notice and this permission notice appear in all copies.         |
+ |                                                                            |
+ |  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES  |
+ |  WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF          |
+ |  MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR   |
+ |  ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES    |
+ |  WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN     |
+ |  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF   |
+ |  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.            |
+ |                                                                            |
+ \----------------------------------------------------------------------------/
+
+ Yosys 0.9 (git sha1 1979e0b)
+
+
+-- Executing script file `syn_onehot.ys' --
+
+1. Executing Verilog-2005 frontend: fsm_onehot.v
+Parsing Verilog input from `fsm_onehot.v' to AST representation.
+Generating RTLIL representation for module `\fsm_onehot'.
+Successfully finished Verilog frontend.
+
+2. Executing HIERARCHY pass (managing design hierarchy).
+
+2.1. Analyzing design hierarchy..
+Top module:  \fsm_onehot
+
+2.2. Analyzing design hierarchy..
+Top module:  \fsm_onehot
+Removed 0 unused modules.
+
+3. Executing PROC pass (convert processes to netlists).
+
+3.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+3.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Removed 5 dead cases from process $proc$fsm_onehot.v:40$2 in module fsm_onehot.
+Marked 6 switch rules as full_case in process $proc$fsm_onehot.v:40$2 in module fsm_onehot.
+Marked 1 switch rules as full_case in process $proc$fsm_onehot.v:32$1 in module fsm_onehot.
+Removed a total of 5 dead cases.
+
+3.3. Executing PROC_INIT pass (extract init attributes).
+
+3.4. Executing PROC_ARST pass (detect async resets in processes).
+
+3.5. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\fsm_onehot.$proc$fsm_onehot.v:40$2'.
+     1/14: $6\out[1:0]
+     2/14: $6\next_state[4:0]
+     3/14: $5\out[1:0]
+     4/14: $5\next_state[4:0]
+     5/14: $4\out[1:0]
+     6/14: $4\next_state[4:0]
+     7/14: $3\out[1:0]
+     8/14: $3\next_state[4:0]
+     9/14: $2\out[1:0]
+    10/14: $2\next_state[4:0]
+    11/14: $1\out[1:0]
+    12/14: $1\next_state[4:0]
+    13/14: $0\out[1:0]
+    14/14: $0\next_state[4:0]
+Creating decoders for process `\fsm_onehot.$proc$fsm_onehot.v:32$1'.
+     1/1: $0\cur_state[4:0]
+
+3.6. Executing PROC_DLATCH pass (convert process syncs to latches).
+No latch inferred for signal `\fsm_onehot.\next_state' from process `\fsm_onehot.$proc$fsm_onehot.v:40$2'.
+No latch inferred for signal `\fsm_onehot.\out' from process `\fsm_onehot.$proc$fsm_onehot.v:40$2'.
+
+3.7. Executing PROC_DFF pass (convert process syncs to FFs).
+Creating register for signal `\fsm_onehot.\cur_state' using process `\fsm_onehot.$proc$fsm_onehot.v:32$1'.
+  created $dff cell `$procdff$120' with positive edge clock.
+
+3.8. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Found and cleaned up 6 empty switches in `\fsm_onehot.$proc$fsm_onehot.v:40$2'.
+Removing empty process `fsm_onehot.$proc$fsm_onehot.v:40$2'.
+Found and cleaned up 1 empty switch in `\fsm_onehot.$proc$fsm_onehot.v:32$1'.
+Removing empty process `fsm_onehot.$proc$fsm_onehot.v:32$1'.
+Cleaned up 7 empty switches.
+
+4. Executing OPT pass (performing simple optimizations).
+
+4.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module fsm_onehot.
+<suppressed ~10 debug messages>
+
+4.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\fsm_onehot'.
+<suppressed ~153 debug messages>
+Removed a total of 51 cells.
+
+4.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \fsm_onehot..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+    dead port 2/2 on $mux $procmux$77.
+    dead port 2/2 on $mux $procmux$35.
+    dead port 2/2 on $mux $procmux$101.
+    dead port 2/2 on $mux $procmux$66.
+    dead port 2/2 on $mux $procmux$26.
+    dead port 2/2 on $mux $procmux$17.
+    dead port 2/2 on $mux $procmux$55.
+    dead port 2/2 on $mux $procmux$89.
+    dead port 2/2 on $mux $procmux$9.
+    dead port 2/2 on $mux $procmux$45.
+Removed 10 multiplexer ports.
+<suppressed ~2 debug messages>
+
+4.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \fsm_onehot.
+    New ctrl vector for $pmux cell $procmux$30: { $procmux$100_CMP $auto$opt_reduce.cc:132:opt_mux$122 $procmux$97_CMP }
+    New ctrl vector for $pmux cell $procmux$40: { $procmux$99_CMP $procmux$98_CMP $auto$opt_reduce.cc:132:opt_mux$124 }
+    New ctrl vector for $pmux cell $procmux$96: { $auto$opt_reduce.cc:132:opt_mux$126 $procmux$98_CMP $procmux$97_CMP }
+    New ctrl vector for $pmux cell $procmux$21: { $auto$opt_reduce.cc:132:opt_mux$130 $auto$opt_reduce.cc:132:opt_mux$128 }
+    New ctrl vector for $pmux cell $procmux$61: { $auto$opt_reduce.cc:132:opt_mux$134 $auto$opt_reduce.cc:132:opt_mux$132 }
+    New ctrl vector for $pmux cell $procmux$12: { $procmux$99_CMP $procmux$98_CMP $auto$opt_reduce.cc:132:opt_mux$136 }
+    New ctrl vector for $pmux cell $procmux$4: { $auto$opt_reduce.cc:132:opt_mux$138 $procmux$97_CMP }
+    New ctrl vector for $pmux cell $procmux$84: { $auto$opt_reduce.cc:132:opt_mux$142 $auto$opt_reduce.cc:132:opt_mux$140 }
+    New input vector for $reduce_or cell $auto$opt_reduce.cc:126:opt_mux$121: { $procmux$98_CMP $procmux$99_CMP }
+    New input vector for $reduce_or cell $auto$opt_reduce.cc:126:opt_mux$129: { $procmux$98_CMP $procmux$99_CMP }
+    New input vector for $reduce_or cell $auto$opt_reduce.cc:126:opt_mux$131: { $procmux$97_CMP $procmux$98_CMP }
+    New input vector for $reduce_or cell $auto$opt_reduce.cc:126:opt_mux$137: { $procmux$100_CMP $procmux$98_CMP $procmux$99_CMP }
+    New input vector for $reduce_or cell $auto$opt_reduce.cc:126:opt_mux$139: { $procmux$97_CMP $procmux$99_CMP }
+  Optimizing cells in module \fsm_onehot.
+Performed a total of 13 changes.
+
+4.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\fsm_onehot'.
+<suppressed ~12 debug messages>
+Removed a total of 4 cells.
+
+4.6. Executing OPT_RMDFF pass (remove dff with constant values).
+
+4.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \fsm_onehot..
+Removed 0 unused cells and 83 unused wires.
+<suppressed ~1 debug messages>
+
+4.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module fsm_onehot.
+
+4.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+4.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \fsm_onehot..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~2 debug messages>
+
+4.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \fsm_onehot.
+    New input vector for $reduce_or cell $auto$opt_reduce.cc:126:opt_mux$141: { $procmux$14_CMP $procmux$100_CMP }
+    New input vector for $reduce_or cell $auto$opt_reduce.cc:126:opt_mux$137: { $procmux$14_CMP $procmux$15_CMP $procmux$100_CMP }
+    New input vector for $reduce_or cell $auto$opt_reduce.cc:126:opt_mux$135: { $procmux$13_CMP $procmux$100_CMP }
+    New input vector for $reduce_or cell $auto$opt_reduce.cc:126:opt_mux$133: { $procmux$15_CMP $procmux$100_CMP }
+  Optimizing cells in module \fsm_onehot.
+Performed a total of 4 changes.
+
+4.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\fsm_onehot'.
+Removed a total of 0 cells.
+
+4.13. Executing OPT_RMDFF pass (remove dff with constant values).
+
+4.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \fsm_onehot..
+
+4.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module fsm_onehot.
+
+4.16. Rerunning OPT passes. (Maybe there is more to do..)
+
+4.17. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \fsm_onehot..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~2 debug messages>
+
+4.18. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \fsm_onehot.
+Performed a total of 0 changes.
+
+4.19. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\fsm_onehot'.
+Removed a total of 0 cells.
+
+4.20. Executing OPT_RMDFF pass (remove dff with constant values).
+
+4.21. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \fsm_onehot..
+
+4.22. Executing OPT_EXPR pass (perform const folding).
+Optimizing module fsm_onehot.
+
+4.23. Finished OPT passes. (There is nothing left to do.)
+
+5. Executing FSM pass (extract and optimize FSM).
+
+5.1. Executing FSM_DETECT pass (finding FSMs in design).
+
+5.2. Executing FSM_EXTRACT pass (extracting FSM from design).
+
+5.3. Executing FSM_OPT pass (simple optimizations of FSMs).
+
+5.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \fsm_onehot..
+
+5.5. Executing FSM_OPT pass (simple optimizations of FSMs).
+
+5.6. Executing FSM_RECODE pass (re-assigning FSM state encoding).
+
+5.7. Executing FSM_INFO pass (dumping all available information on FSM cells).
+
+5.8. Executing FSM_MAP pass (mapping FSMs to basic logic).
+
+6. Executing OPT pass (performing simple optimizations).
+
+6.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module fsm_onehot.
+
+6.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\fsm_onehot'.
+Removed a total of 0 cells.
+
+6.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \fsm_onehot..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~2 debug messages>
+
+6.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \fsm_onehot.
+Performed a total of 0 changes.
+
+6.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\fsm_onehot'.
+Removed a total of 0 cells.
+
+6.6. Executing OPT_RMDFF pass (remove dff with constant values).
+
+6.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \fsm_onehot..
+
+6.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module fsm_onehot.
+
+6.9. Finished OPT passes. (There is nothing left to do.)
+
+7. Executing TECHMAP pass (map to technology primitives).
+
+7.1. Executing Verilog-2005 frontend: <techmap.v>
+Parsing Verilog input from `<techmap.v>' to AST representation.
+Generating RTLIL representation for module `\_90_simplemap_bool_ops'.
+Generating RTLIL representation for module `\_90_simplemap_reduce_ops'.
+Generating RTLIL representation for module `\_90_simplemap_logic_ops'.
+Generating RTLIL representation for module `\_90_simplemap_compare_ops'.
+Generating RTLIL representation for module `\_90_simplemap_various'.
+Generating RTLIL representation for module `\_90_simplemap_registers'.
+Generating RTLIL representation for module `\_90_shift_ops_shr_shl_sshl_sshr'.
+Generating RTLIL representation for module `\_90_shift_shiftx'.
+Generating RTLIL representation for module `\_90_fa'.
+Generating RTLIL representation for module `\_90_lcu'.
+Generating RTLIL representation for module `\_90_alu'.
+Generating RTLIL representation for module `\_90_macc'.
+Generating RTLIL representation for module `\_90_alumacc'.
+Generating RTLIL representation for module `\$__div_mod_u'.
+Generating RTLIL representation for module `\$__div_mod'.
+Generating RTLIL representation for module `\_90_div'.
+Generating RTLIL representation for module `\_90_mod'.
+Generating RTLIL representation for module `\_90_pow'.
+Generating RTLIL representation for module `\_90_pmux'.
+Generating RTLIL representation for module `\_90_lut'.
+Successfully finished Verilog frontend.
+
+7.2. Continuing TECHMAP pass.
+Using extmapper simplemap for cells of type $reduce_or.
+Using template $paramod\_90_pmux\WIDTH=2\S_WIDTH=2 for cells of type $pmux.
+Using template $paramod\_90_pmux\WIDTH=5\S_WIDTH=3 for cells of type $pmux.
+Using template $paramod\_90_pmux\WIDTH=2\S_WIDTH=3 for cells of type $pmux.
+Using template $paramod\_90_pmux\WIDTH=5\S_WIDTH=4 for cells of type $pmux.
+Using extmapper simplemap for cells of type $eq.
+Using extmapper simplemap for cells of type $logic_not.
+Using template $paramod\_90_pmux\WIDTH=2\S_WIDTH=5 for cells of type $pmux.
+Using template $paramod\_90_pmux\WIDTH=5\S_WIDTH=5 for cells of type $pmux.
+Using extmapper simplemap for cells of type $mux.
+Using extmapper simplemap for cells of type $dff.
+Using extmapper simplemap for cells of type $and.
+No more expansions possible.
+<suppressed ~200 debug messages>
+
+8. Executing OPT pass (performing simple optimizations).
+
+8.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module fsm_onehot.
+<suppressed ~199 debug messages>
+
+8.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\fsm_onehot'.
+<suppressed ~126 debug messages>
+Removed a total of 42 cells.
+
+8.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \fsm_onehot..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+
+8.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \fsm_onehot.
+Performed a total of 0 changes.
+
+8.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\fsm_onehot'.
+Removed a total of 0 cells.
+
+8.6. Executing OPT_RMDFF pass (remove dff with constant values).
+
+8.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \fsm_onehot..
+Removed 0 unused cells and 313 unused wires.
+<suppressed ~1 debug messages>
+
+8.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module fsm_onehot.
+
+8.9. Finished OPT passes. (There is nothing left to do.)
+
+9. Executing ABC pass (technology mapping using ABC).
+
+9.1. Extracting gate netlist of module `\fsm_onehot' to `<abc-temp-dir>/input.blif'..
+Extracted 146 gates and 157 wires to a netlist network with 8 inputs and 7 outputs.
+
+9.1.1. Executing ABC.
+Running ABC command: berkeley-abc -s -f <abc-temp-dir>/abc.script 2>&1
+ABC: ABC command line: "source <abc-temp-dir>/abc.script".
+ABC: 
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_library <abc-temp-dir>/stdcells.genlib 
+ABC: Entered genlib library with 9 gates from file "<abc-temp-dir>/stdcells.genlib".
+ABC: + strash 
+ABC: + ifraig 
+ABC: + scorr 
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + dc2 
+ABC: + dretime 
+ABC: + retime 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &dch -f 
+ABC: + &nf 
+ABC: + &put 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+
+9.1.2. Re-integrating ABC results.
+ABC RESULTS:               AND cells:       23
+ABC RESULTS:              NAND cells:       20
+ABC RESULTS:               NOR cells:        6
+ABC RESULTS:               NOT cells:        7
+ABC RESULTS:                OR cells:       14
+ABC RESULTS:        internal signals:      142
+ABC RESULTS:           input signals:        8
+ABC RESULTS:          output signals:        7
+Removing temp directory.
+
+10. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \fsm_onehot..
+Removed 0 unused cells and 95 unused wires.
+<suppressed ~2 debug messages>
+
+11. Printing statistics.
+
+=== fsm_onehot ===
+
+   Number of wires:                 69
+   Number of wire bits:             79
+   Number of public wires:           5
+   Number of public wire bits:      11
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 75
+     $_AND_                         23
+     $_DFF_P_                        5
+     $_NAND_                        20
+     $_NOR_                          6
+     $_NOT_                          7
+     $_OR_                          14
+
+12. Executing Verilog backend.
+Dumping module `\fsm_onehot'.
+
+End of script. Logfile hash: 7d8189ce6e
+CPU: user 0.10s system 0.01s, MEM: 17.77 MB total, 12.16 MB resident
+Yosys 0.9 (git sha1 1979e0b)
+Time spent: 23% 1x techmap (0 sec), 15% 8x opt_merge (0 sec), ...

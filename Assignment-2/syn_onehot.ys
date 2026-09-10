@@ -1,0 +1,9 @@
+read_verilog fsm_onehot.v
+hierarchy -check -top fsm_onehot
+proc; opt
+fsm; opt
+techmap; opt
+abc -g AND,OR,XOR,NAND,NOR
+opt_clean
+stat
+write_verilog -noattr fsm_onehot_netlist.v

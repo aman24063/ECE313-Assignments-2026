@@ -1,0 +1,30 @@
+VCD info: dumpfile fsm.vcd opened for output.
+--- reset released, FSM should be in S1 ---
+[21000] S1  in=00  out=01  -> S1
+[31000] S1  in=01  out=00  -> S1
+[41000] S1  in=10  out=01  -> S2
+[51000] S2  in=10  out=10  -> S2
+[61000] S2  in=00  out=11  -> S1
+[71000] S1  in=10  out=01  -> S2
+[81000] S2  in=01  out=11  -> S3
+[91000] S3  in=10  out=10  -> S3
+[101000] S3  in=00  out=00  -> S1
+[111000] S1  in=11  out=00  -> S3
+[121000] S3  in=11  out=00  -> S4
+[131000] S4  in=11  out=11  -> S4
+[141000] S4  in=00  out=11  -> S3
+[151000] S3  in=01  out=01  -> S5
+[161000] S5  in=00  out=00  -> S5
+[171000] S5  in=11  out=11  -> S5
+[181000] S5  in=10  out=00  -> S3
+[191000] S3  in=11  out=00  -> S4
+[201000] S4  in=10  out=01  -> S5
+[211000] S5  in=01  out=00  -> S1
+[221000] S1  in=10  out=01  -> S2
+[231000] S2  in=11  out=10  -> S4
+[241000] S4  in=01  out=01  -> S5
+[251000] S5  in=01  out=00  -> S1
+--- synchronous reset re-applied, FSM back in S1 ---
+[281000] S1  in=10  out=01  -> S2
+
+TEST PASSED : all 25 checks matched the reference model
