@@ -1,8 +1,0 @@
-# compiled simulation binaries
-test_gray
-test_cov
-test_onehot
-
-# simulation dumps and coverage database
-*.vcd
-*.cdd
